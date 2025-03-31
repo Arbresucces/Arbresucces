@@ -1,0 +1,61 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    background-color: #111;
+}
+
+#graph-container {
+    width: 100vw;
+    height: 100vh;
+}
+
+.hidden {
+    display: none;
+}
+
+#modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #222;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.icon {
+    font-size: 30px; /* Ajuste la taille selon ton besoin */
+    cursor: pointer;
+    user-select: none;
+}
+
+#close-button {
+    
+    position: absolute;
+    top: 0px;
+    left: 75%;
+    color: red;
+}
+
+#validate-button {
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translate(-50%);
+    color: green;
+}
+
+/* Affichage du niveau en haut à gauche de l'écran */
+#level-container {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: rgba(0, 0, 0, 0.7); /* Fond légèrement transparent */
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    border-radius: 5px;
+}

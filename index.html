@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arbre de Succès</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Ajouter D3.js en premier avant script -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <div id="graph-container">
+        <svg id="graph"></svg>
+    </div>
+<!--Fonction pour réinitialisé-->
+<div id="button-container" style="position: fixed; top: 10px; right: 10px;">
+    <button id="reset-button" style="background-color: red; color: white;">Réinitialiser la progression</button>
+</div>
+
+    <!-- Affichage du niveau en haut à gauche -->
+<div id="level-container">
+    <p>Niveau: <span id="level-display">0</span></p>
+</div>
+
+    <!-- Fenêtre d'info du succès -->
+    <div id="modal" class="hidden">
+        <h2 id="success-title"></h2>
+        <p id="success-description"></p>
+        <span id="validate-button" class="icon">&#9711;</span>
+        <span id="close-button" class="icon">&#10006;</span>
+    </div>
+
+    <!-- Charger successData.js avant script.js -->
+    <script src="successData.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
