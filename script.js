@@ -1,4 +1,5 @@
 // Initialiser le niveau
+import { successes } from "./successData.js";
 let level = parseInt(localStorage.getItem("level")) || 0;
 document.getElementById("level-display").textContent = level;
 
