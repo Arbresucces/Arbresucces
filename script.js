@@ -1,3 +1,7 @@
+// Chargement de la progression sauvegardée
+const savedProgress = JSON.parse(localStorage.getItem("successProgress")) || [];
+successes.forEach(s => { s.unlocked = savedProgress.includes(s.id); });
+
 // Initialiser le niveau
 import { successes } from "./successData.js";
 let level = parseInt(localStorage.getItem("level")) || 0;
@@ -12,10 +16,6 @@ const container = svg.append("g");
 svg.call(d3.zoom().scaleExtent([0.05, 2]).on("zoom", (event) => {
     container.attr("transform", event.transform);
 }));
-
-// Chargement de la progression sauvegardée
-const savedProgress = JSON.parse(localStorage.getItem("successProgress")) || [];
-successes.forEach(s => { s.unlocked = savedProgress.includes(s.id); });
 
 // Création du mapping des succès
 const successMap = new Map(successes.map(s => [s.id, s]));
