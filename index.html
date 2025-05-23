@@ -14,25 +14,43 @@
         <svg id="graph"></svg>
     </div>
 <!--Fonction pour réinitialisé-->
-<div id="button-container" style="position: fixed; top: 10px; right: 10px;">
-    <button id="reset-button" style="background-color: red; color: white;">Réinitialiser la progression</button>
 </div>
+
+    <div id="settings-container">
+        <div id="settings-icon">⚙️</div>
+        <div id="settings-menu" class="hidden">
+            <ul>
+                <li id="menu-item-reset"><span>🗑️</span> Réinitialiser la progression</li>
+                <li id="menu-item-dev-mode"><span>🛠️</span> Mode développeur</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="reset-confirmation-dialog" class="hidden">
+        <p>Êtes-vous sûr de vouloir réinitialiser toute votre progression ? Cette action est irréversible.</p>
+        <button id="confirm-reset-button">Confirmer</button>
+        <button id="cancel-reset-button">Annuler</button>
+    </div>
 
     <!-- Affichage du niveau en haut à gauche -->
 <div id="level-container">
     <p>Niveau: <span id="level-display">0</span></p>
 </div>
 
-    <!-- Fenêtre d'info du succès -->
-    <div id="modal" class="hidden">
-        <h2 id="success-title"></h2>
-        <p id="success-description"></p>
-        <span id="validate-button" class="icon">&#9711;</span>
-        <span id="close-button" class="icon">&#10006;</span>
-    </div>
+<!-- Ajoutez ceci quelque part dans votre <body>, par exemple avant votre <script src="script.js"></script> -->
+<div id="success-details-sidebar">
+    <h2 id="sidebar-success-name">Aucun succès sélectionné</h2>
+    <p id="sidebar-success-description">Cliquez sur un succès pour afficher ses détails ici.</p>
+    <p id="sidebar-success-levelup"></p>
+    <!-- Vous pourriez envisager de déplacer l'affichage du niveau et le bouton reset ici aussi -->
+    <!-- 
+        <p>Niveau actuel : <span id="level-display">0</span></p>
+        <button id="reset-button">Réinitialiser la progression</button> 
+    -->
+</div>
 
     <!-- Charger successData.js avant script.js -->
-    <script src="successData.js"></script>
+    <script src="successdata.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
