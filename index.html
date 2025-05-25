@@ -5,52 +5,102 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arbre de Succès</title>
     <link rel="stylesheet" href="style.css">
-
-    <!-- Ajouter D3.js en premier avant script -->
+    <!-- D3.js - Bibliothèque pour la visualisation de données -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
-    <div id="graph-container">
-        <svg id="graph"></svg>
-    </div>
-<!--Fonction pour réinitialisé-->
-</div>
 
+    <!-- Conteneur principal pour le graphique des succès -->
+    <main id="graph-container">
+        <svg id="graph"></svg>
+    </main>
+
+    <!-- Panneau latéral pour les détails des succès -->
+    <aside id="success-details-sidebar">
+        <button id="sidebar-toggle-button" aria-expanded="true" aria-controls="sidebar-content-wrapper">
+            Cacher les détails ▼
+        </button>
+        <div id="sidebar-content-wrapper">
+            <h3 id="sidebar-success-name">Aucun succès sélectionné</h3>
+            <p id="sidebar-success-description">Cliquez sur un succès pour afficher ses détails ici.</p>
+            <p id="sidebar-success-levelup"></p>
+            <p id="sidebar-success-condition"></p>
+            <button id="sidebar-unlock-button">Débloquer ce Succès</button>
+        </div>
+    </aside>
+
+    <!-- Affichage du niveau du joueur et statistiques des succès -->
+    <div id="level-container">
+        <p>Niveau: <span id="level-display">0</span></p>
+        <!-- Statistiques des succès normaux -->
+        <div id="normal-success-stats">
+            Succès accomplis : <span id="unlocked-normal-successes-count">0</span><br>
+            Succès restants : <span id="remaining-normal-successes-count">0</span>
+        </div>
+    </div>
+    <!-- Menu des paramètres -->
     <div id="settings-container">
-        <div id="settings-icon">⚙️</div>
-        <div id="settings-menu" class="hidden">
+        <button id="settings-icon" aria-haspopup="true" aria-expanded="false" aria-controls="settings-menu" aria-label="Ouvrir les paramètres">⚙️</button>
+        <div id="settings-menu" class="hidden" role="menu" aria-labelledby="settings-icon">
             <ul>
-                <li id="menu-item-reset"><span>🗑️</span> Réinitialiser la progression</li>
-                <li id="menu-item-dev-mode"><span>🛠️</span> Mode développeur</li>
+                <li id="menu-item-reset" role="menuitem" tabindex="-1"><span>🗑️</span> Réinitialiser la progression</li>
+                <li id="menu-item-dev-mode" role="menuitem" tabindex="-1"><span>🛠️</span> Mode développeur</li>
+                <li id="menu-item-dev-unlock-all" role="menuitem" tabindex="-1" class="hidden"><span>🔓</span> Débloquer Tout (sauf final)</li>
+                <li id="menu-item-connexion" role="menuitem" tabindex="-1"><span>👤</span> Connexion</li>
+                <li class="menu-item-info"><span id="menu-item-version-display">Version: 1.1</span></li>
             </ul>
         </div>
     </div>
 
-    <div id="reset-confirmation-dialog" class="hidden">
+    <!-- Dialogue de confirmation pour la réinitialisation -->
+    <div id="reset-confirmation-dialog" class="hidden" role="dialog" aria-modal="true" aria-labelledby="reset-dialog-title">
+        <h2 id="reset-dialog-title" class="visually-hidden">Confirmation de réinitialisation</h2>
         <p>Êtes-vous sûr de vouloir réinitialiser toute votre progression ? Cette action est irréversible.</p>
-        <button id="confirm-reset-button">Confirmer</button>
-        <button id="cancel-reset-button">Annuler</button>
+        <div class="dialog-buttons">
+            <button id="confirm-reset-button">Confirmer</button>
+            <button id="cancel-reset-button">Annuler</button>
+        </div>
     </div>
 
-    <!-- Affichage du niveau en haut à gauche -->
-<div id="level-container">
-    <p>Niveau: <span id="level-display">0</span></p>
-</div>
+    <!-- Indicateur du mode développeur -->
+    <div id="dev-mode-indicator" class="hidden">Mode Dév Actif</div>
 
-<!-- Ajoutez ceci quelque part dans votre <body>, par exemple avant votre <script src="script.js"></script> -->
-<div id="success-details-sidebar">
-    <h2 id="sidebar-success-name">Aucun succès sélectionné</h2>
-    <p id="sidebar-success-description">Cliquez sur un succès pour afficher ses détails ici.</p>
-    <p id="sidebar-success-levelup"></p>
-    <!-- Vous pourriez envisager de déplacer l'affichage du niveau et le bouton reset ici aussi -->
-    <!-- 
-        <p>Niveau actuel : <span id="level-display">0</span></p>
-        <button id="reset-button">Réinitialiser la progression</button> 
-    -->
-</div>
+<!-- Modale pour le mot de passe du mode développeur -->
+    <div id="password-dev-modal" class="modal hidden">
+        <div class="modal-content">
+            <span id="close-dev-modal-button" class="close-button">&times;</span>
+            <p>Veuillez entrer le mot de passe pour activer le mode développeur :</p>
+            <input type="password" id="dev-mode-password-input">
+            <button id="submit-dev-mode-password">Valider</button>
+            <p id="dev-mode-password-error" class="error-message hidden"></p>
+        </div>
+    </div>
 
-    <!-- Charger successData.js avant script.js -->
+    <!-- Boîte de message de Victoire -->
+    <div id="victory-message-box" class="victory-box hidden">
+        <div class="victory-box-content">
+            <p id="victory-message-text"></p>
+            <button id="close-victory-box-button">Incroyable !</button>
+        </div>
+    </div>
+
+ <!-- Modale de Bienvenue et Instructions -->
+    <div id="welcome-modal" class="modal hidden">
+        <div class="modal-content">
+            <span id="close-welcome-modal-button" class="close-button">&times;</span>
+            <h2>Bienvenue sur Platine de la Vie !</h2>
+            <p>Pour progresser il faut réaliser le succès dans la VRAIE VIE pour le validé, pour le débloqué maintenez un clic (sur pc) et (dans les détails pour téléphone)sur un succès déblocable (en bleu) jusqu'à ce qu'il se valide.</p>
+            <p>Il est conseiller de faire la liste sur téléphone (car portable) car le système sauvgarde sur votre navigateur pour le moment (avant que le systeme de connexion soit ajouté)</p>
+            <p><strong>Prenez cette liste au sérieux, chaque succès est une étape vers une meilleure version de vous-même. et que aussi cette liste est faite pour être réalisable par tous (normalement) et que il faut faire cette liste honnêtement et pas tricher si vous voulez vous amusez</strong></p>
+            <p>Bonne chance dans votre quête !</p>
+            <button id="got-it-welcome-button">Compris !</button>
+        </div>
+    </div>
+
+    <!-- Scripts de l'application -->
+    <!-- Données des succès -->
     <script src="successdata.js"></script>
+    <!-- Logique principale de l'application -->
     <script src="script.js"></script>
 </body>
 </html>
